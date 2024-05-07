@@ -5,7 +5,8 @@ using EmailProvider.Functions;
 using EmailProvider.Models;
 using EmailProvider.Service.Interfaces;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
+using Newtonsoft.Json;
+
 
 namespace EmailProvider.Service;
 
@@ -18,7 +19,9 @@ public class EmailService(EmailClient emailClient, ILogger<EmailSender> logger) 
     {
         try
         {
-            var emailRequest = JsonSerializer.Deserialize<EmailRequest>(message.Body.ToString());
+            
+            var emailRequest = JsonConvert.DeserializeObject<EmailRequest>(message.Body.ToString());
+
             if (emailRequest != null)
             {
                 return emailRequest;
